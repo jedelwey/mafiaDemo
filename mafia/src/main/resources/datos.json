@@ -1,0 +1,47 @@
+
+{
+    "members":[
+        {
+            "name": "Jhon",
+            "seniority": 4,
+            "subordinates": ["Francis","Pascual"],
+            "boss": "Andy"
+        },
+        {
+            "name": "Francis",
+            "seniority": 1,
+            "subordinates": [],
+            "boss": "Jhon"
+        },
+        {
+            "name": "Pascual",
+            "seniority": 3,
+            "subordinates": [],
+            "boss": "Jhon"
+        },
+        {
+            "name": "Petrucci",
+            "seniority": 2,
+            "subordinates": [],
+            "boss": "Carl"
+        },
+        {
+            "name": "Cole",
+            "seniority": 1,
+            "subordinates": [],
+            "boss": "Carl"
+        },
+        {
+            "name": "Carl",
+            "seniority": 3,
+            "subordinates": ["Petrucci","Cole"],
+            "boss": "Andy"
+        },
+        {
+            "name": "Andy",
+            "seniority": 5,
+            "subordinates": ["Jhon","Carl"],
+            "boss": ""
+        }
+    ]
+}
