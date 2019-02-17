@@ -6,18 +6,24 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import institucion.Carcel;
+
 public class Prueba {
 	
 	private static final String FICHERO = "D:/datos.json";
+	private static Logger logger = Logger.getLogger("mafia.prueba");
 	
 	public static void main(String[] args) {
 		try {
+			
 			JSONObject jsonObject = obtenerFichero();
 			JSONArray listaMiembros = (JSONArray) jsonObject.get("members");
 
@@ -34,27 +40,37 @@ public class Prueba {
 			}
 			//Añado la lista de miembros al Cartel
 			sinaloa.setMembers(listaMiembrosCartel);
-			sinaloa.establecerJerarquia();
-			sinaloa.imprimirJerarquia();
-			sinaloa.imprimirJefeBanda();
+			sinaloa.actualizarDatos();
+			
+			Carcel guantanamo = new Carcel();
+			Members recluso1 = sinaloa.obtenerMiembro("Jhon");
+			guantanamo.entrar(recluso1);
+			sinaloa.quitarMiembro(recluso1);
+			
+			sinaloa.actualizarDatos();
+			
+			guantanamo.salir(recluso1);
+			sinaloa.aniadirMiembro(recluso1);
+			
+			sinaloa.actualizarDatos();
+			
+			Members recluso2 = sinaloa.obtenerMiembro("Andy");
+			guantanamo.entrar(recluso2);
+			sinaloa.quitarMiembro(recluso2);
 
+			sinaloa.actualizarDatos();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.WARNING, "Formato de encoding no soportado",e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.WARNING, "Se ha producido un error de lectura/escritura del archivo.", e);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+			logger.log(Level.WARNING, "Se ha producido un error al parsear el archivo json.", e);
+		}		
 	}
 
 	/**
-	 * 
-	 * @return
-	 * @throws UnsupportedEncodingException
+	 * Obtiene el fichero y lo parsea a JSONObject
+	 * @return el fichero en formato JSONObject
 	 * @throws IOException
 	 * @throws ParseException
 	 */
